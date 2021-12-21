@@ -19,6 +19,6 @@ from board import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('', views.index),   #127.0.0.1:8000
     path('board/', include('board.urls')),
 ]
