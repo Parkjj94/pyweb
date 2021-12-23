@@ -12,5 +12,5 @@ urlpatterns = [
     # 로그아웃
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # 회원 가입
-    path('signup/', views.signup, name='signup')
+    path('signup/', views.signup, name='signup'),
 ]

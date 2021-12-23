@@ -8,7 +8,8 @@
             <div class="col-8 text-right">
                 <span>또는 <a href="{% url 'common:signup' %}">계정을 만드세요</a></span>
             </div>
-        <form action="{% url 'common:login' %}" method="post" class="my-3">
+         </div> <!-- row 끝 -->
+        <form action="" method="post" class="my-3">
             {% csrf_token %}
             {% include 'form_errors.html' %}
             <div class="form-group">
@@ -24,6 +25,5 @@
             </div>
             <button type="submit" class="btn btn-primary">로그인</button>
         </form>
-    </div>
 </div>
 {% endblock %}
