@@ -119,7 +119,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / 'static'
 ]
 
 # Default primary key field type
@@ -128,7 +128,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 로그인 성공시 이동할 URL(루트 경로)
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = '/'
 
 # 로그아웃 성공시 이동할 URL
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = '/'

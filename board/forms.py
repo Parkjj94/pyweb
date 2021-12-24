@@ -3,7 +3,7 @@ from board.models import Question, Answer
 
 #질문 등록폼
 class QuestionForm(forms.ModelForm):
-    class Meta:             # 내부 클라스,중첩클래스
+    class Meta:     #내부클래스, 중첩클래스
         model = Question
         fields = ['subject', 'content']
         labels = {
