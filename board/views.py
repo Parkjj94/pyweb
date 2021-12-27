@@ -8,15 +8,18 @@ from board.models import Question, Answer
 from board.forms import QuestionForm, AnswerForm
 
 def index(request):
+    return render(request, 'board/index.html')
+
+def boardlist(request):
     #질문 목록
     #question_list = Question.objects.all()  #db 전체조회
-    question_list = Question.objects.order_by('-create_date') #작성일 기준 내림차순(- 기호 사용)
+    question_list = Question.objects.order_by('-create_date')#작성일 내림차순
 
     #페이지 처리
     page = request.GET.get('page', 1)  #127.0.0.1:8000/ 기본 1페이지임
-    paginator = Paginator(question_list, 10)    # 페이지당 10개씩 설정
-    page_obj = paginator.get_page(page)         # 페이지 가져오기
-    return render(request, 'board/question_list.html', {'question_list': page_obj})
+    paginator = Paginator(question_list, 10) #페이지당 10개씩 설정
+    page_obj = paginator.get_page(page)    #페이지 가져오기
+    return render(request, 'board/question_list.html',{'question_list':page_obj})
 
 def detail(request, question_id):
     # 질문/답변 상세
@@ -76,13 +79,6 @@ def question_modify(request, question_id):
     return render(request, 'board/question_form.html', {'form':form})
 
 @login_required(login_url='common:login')
-def question_delete(request, question_id):
-    #질문 삭제
-    question = get_object_or_404(Question, pk=question_id)
-    question.delete() #질문 삭제
-    return redirect('board:index')
-
-@login_required(login_url='common:login')
 def answer_modify(request, answer_id):
     #답변 수정
     answer = get_object_or_404(Answer, pk=answer_id)
@@ -90,50 +86,24 @@ def answer_modify(request, answer_id):
         form = AnswerForm(request.POST, instance=answer)
         if form.is_valid():
             answer = form.save(commit=False)
-            answer.author = request.user
             answer.modify_date = timezone.now()
+            answer.author = request.user
             answer.save()
             return redirect('board:detail', question_id=answer.question.id)
     else:
         form = AnswerForm(instance=answer)
-    context = {'answer': answer, 'form': form}
-    return render(request, 'board/answer_form.html', context)
+    return render(request, 'board/answer_form.html', {'form':form})
+
+@login_required(login_url='common:login')
+def question_delete(request, question_id):
+    #질문 삭제
+    question = get_object_or_404(Question, pk=question_id)
+    question.delete() #질문 삭제
+    return redirect('board:index')
 
 @login_required(login_url='common:login')
 def answer_delete(request, answer_id):
     #답변 삭제
     answer = get_object_or_404(Answer, pk=answer_id)
     answer.delete()
-    return redirect('board:detail', question_id=answer.question_id)
-
-# @login_required(login_url='common:login')
-# def comment_modify_question(request, comment_id):
-#     #답변 답글 수정
-#     comment = get_object_or_404(Comment, pk=comment_id)
-#     if request.user != comment.author:
-#         messages.error(request, '댓글 수정 권한이 없습니다.')
-#         return redirect('board:detail', question_id=comment.question.id)
-#
-#     if request.method == "POST":
-#         form = CommentForm(request.POST, instance=comment)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.author = request.user
-#             comment.modify_date = timezone.now()
-#             comment.save()
-#             return redirect('board:detail', question_id=comment.question.id)
-#     else:
-#         form = CommentForm(instance=comment)
-#     context = {'form':form}
-#     return render(request, 'board/comment_form.html', context)
-#
-# @login_required(login_url='common:login')
-# def comment_delete_question(request, comment_id):
-#     #답변 삭제
-#     comment = get_object_or_404(Comment, pk=comment_id)
-#     if request.user != comment.author:
-#         messages.error(request, '댓글 삭제 권한이 없습니다.')
-#         return redirect('board:detail', question_id=comment.question_id)
-#     else:
-#         comment.delete()
-#     return redirect('board:detail', question_id=comment.question_id)
+    return redirect('board:detail', question_id=answer.question.id)
