@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponse
@@ -107,3 +108,13 @@ def answer_delete(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     answer.delete()
     return redirect('board:detail', question_id=answer.question.id)
+
+@login_required(login_url='common:login')
+def vote_question(request, question_id):
+    #질문 추천
+    question = get_object_or_404(Question, pk=question_id)
+    if request.user == question.author:
+        messages.error(request, '본인이 작성한 글은 추천할 수 없습니다.')
+    else:
+        question.voter.add(request.user)    # 추천 추가(로그인한 사람)
+    return redirect('board:detail', question_id)
