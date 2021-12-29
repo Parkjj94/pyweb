@@ -39,7 +39,7 @@ def question_create(request):
             question.create_date = timezone.now() #날짜 시간 저장
             question.author = request.user  #글쓴이에 세션 저장
             question.save()  #실제 저장
-            return redirect('board:index') #이동할 경로(앱 네임사용) 저장
+            return redirect('board:boardlist') #이동할 경로(앱 네임사용) 저장
     else:
         form = QuestionForm()   #form 객체 생성
     return render(request, 'board/question_form.html', {'form':form})
