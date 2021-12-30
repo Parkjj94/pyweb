@@ -30,7 +30,7 @@ urlpatterns = [
     #질문 추천
     path('vote/question/<int:question_id>/', views.vote_question,
          name='vote_question'),
-    #답변 추천 (추천 누르면 오류뜨는데 해결해야함)
+    #답변 추천 (추천 누르면 오류뜨는데 해결해야함 + 답변 댓글 추가)
     path('vote/answer/<int:answer_id>/', views.vote_answer,
          name='vote_answer'),
     #질문 댓글 등록
