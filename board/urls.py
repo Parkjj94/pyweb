@@ -1,5 +1,5 @@
 from django.urls import path
-from board.views import base_views, question_views, answer_views, vote_views, comment_views
+from board.views import base_views, question_views, answer_views, vote_views, comment_views, answer_comment_views
 
 app_name = 'board'  #네임 스페이스 설정
 
@@ -42,5 +42,14 @@ urlpatterns = [
     # 질문 댓글 수정
     path('comment/modify/question/<int:comment_id>/', comment_views.comment_modify_question,
          name='comment_modify_question'),
+    # 답변 댓글 등록
+    path('comment/create/answer/<int:answer_id>/', answer_comment_views.comment_create_answer,
+         name='comment_create_answer'),
+    # 답변 댓글 수정
+    path('comment/modify/answer/<int:comment_id>/', answer_comment_views.comment_modify_answer,
+         name='comment_modify_answer'),
+    # 답변 댓글 삭제
+    path('comment/delete/answer/<int:comment_id>/', answer_comment_views.comment_delete_answer,
+         name='comment_delete_answer'),
 
 ]
